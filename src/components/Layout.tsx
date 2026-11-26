@@ -1,9 +1,10 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { FileText, Settings, Users } from 'lucide-react'
+import { BarChart3, FileText, Settings, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const LIENS = [
   { to: '/factures', label: 'Factures', icon: FileText },
+  { to: '/indicateurs', label: 'Indicateurs', icon: BarChart3 },
   { to: '/destinataires', label: 'Destinataires', icon: Users },
   { to: '/parametres', label: 'Paramètres', icon: Settings },
 ]

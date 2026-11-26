@@ -15,6 +15,6 @@ npm run dev     # http://localhost:5173
 
 Vérifications : `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`.
 
-- Pages : `src/pages/` (Factures, fiche facture avec aperçu, Destinataires, Paramètres).
+- Pages : `src/pages/` (Factures, fiche facture avec aperçu, Indicateurs, Destinataires, Paramètres). Calculs des indicateurs : `src/lib/indicateurs.ts`.
 - Données : `src/lib/store.ts` (Zustand persisté), calculs et formats : `src/lib/factures.ts`.
 - PDF : `src/lib/pdf/facturePdf.ts` (positions relevées sur la facture n°044).
