@@ -1,0 +1,230 @@
+@import 'tailwindcss';
+
+/* Desktop = au moins 768 px de large ET 500 px de haut ; sinon mise en page mobile
+   (un téléphone en paysage, 852x393, a la mise en page mobile). Garder en phase avec MOBILE_QUERY. */
+@custom-variant md (@media (min-width: 768px) and (min-height: 500px));
+@custom-variant mobile (@media not all and (min-width: 768px) and (min-height: 500px));
+@custom-variant short (@media (max-height: 499px));
+
+/* Design repris de Chiffr (LNS), couleurs DOJOGYM'S ; une seule famille : Archivo. */
+@theme {
+  /* DOJOGYM'S : bleu marine du blason (actions) et rose des illustrations (accent) */
+  --color-brand-50: #eef1f8;
+  --color-brand-100: #dbe1f0;
+  --color-brand-200: #b7c2e0;
+  --color-brand-300: #8394c4;
+  --color-brand-400: #4f64a3;
+  --color-brand-500: #2b3f7c;
+  --color-brand-600: #142350;
+  --color-brand-700: #0f1b3f;
+  --color-brand-800: #0a132d;
+  --color-rose: #e597b0;
+
+  --color-ink-900: #100f0d;
+  --color-ink-800: #1a1816;
+  --color-ink-700: #353129;
+  --color-ink-600: #4a4740;
+  --color-ink-500: #6b6860;
+  --color-ink-400: #a8a49c;
+  --color-ink-300: #d1cdc3;
+  --color-ink-200: #e5e2d9;
+  --color-ink-100: #f0ede5;
+  --color-ink-50: #f8f7f2;
+
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #b91c1c;
+  --color-today: var(--color-ink-900);
+
+  /* Graphiques (Indicateurs) : palette de statut du skill dataviz, identique en clair et en sombre,
+     validée (scripts/validate_palette.js) ; toujours accompagnée d'un libellé et d'une valeur visibles. */
+  --color-chart-good: #0ca30c;
+  --color-chart-pending: #fab219;
+  --color-chart-critical: #d03b3b;
+  /* Barres « jours par profil » de la synthèse d'un devis : orange distinct du corail des actions */
+  --color-chart-bar: #e8772e;
+
+  --color-surface: #ffffff;
+  /* Bordure des champs (input, select, textarea, déclencheurs de liste, cases) : 3:1 contre surface et papier (WCAG 1.4.11), ink-300 ne fait que 1,6:1. */
+  --color-field-border: #8a867e;
+
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --shadow-xs: 0 1px 2px rgb(26 24 22 / 0.04);
+  --shadow-sm: 0 2px 6px rgb(26 24 22 / 0.06);
+  --shadow-md: 0 4px 16px rgb(26 24 22 / 0.08);
+  --shadow-lg: 0 8px 32px rgb(26 24 22 / 0.1);
+
+}
+
+@layer base {
+  * {
+    border-color: var(--color-ink-200);
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: var(--color-ink-50);
+    color: var(--color-ink-800);
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29' opacity='0.025'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.01em;
+  }
+  /* Tailwind v4 preflight makes buttons use the default cursor; restore the
+     pointer for anything interactive. Utility cursors (cursor-grab on drag
+     handles, etc.) still win because the utilities layer comes later. */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  summary,
+  a {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  /* Brand the native checkboxes (coral) with a visible keyboard focus ring,
+     so they match the design system instead of the default blue box. */
+  input[type='checkbox'],
+  input[type='radio'] {
+    accent-color: var(--color-brand-500);
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+  }
+  input[type='checkbox']:focus-visible,
+  input[type='radio']:focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+  }
+  /* Anneau de focus unique (clavier) : corail brand-600, comme Button et les champs. Remplace le bleu natif
+     des liens, boutons et éléments focalisables qui n'ont pas leur propre style. */
+  :where(a, button, summary, [role='button'], [tabindex]):focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-ink-300);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+}
+
+.hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-ink-100),
+    var(--color-ink-100) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+/* native <select> chevron — matches the CreatableSelect chevron exactly
+   (ink-400 lucide chevron-down, same size & right offset) */
+.select-chevron {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%23a8a49c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.625rem center;
+  background-size: 15px;
+  padding-right: 2rem;
+}
+
+/* Entrée douce des cartes (delight, désactivé si reduced-motion) */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-rise { animation: rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise { animation: none; }
+}
+
+/* Petits plaisirs : coche qui se dessine, rebond unique.
+   Le texte reste ; seul le mouvement saute en reduced-motion. */
+@keyframes draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+.animate-draw { stroke-dasharray: 1; animation: draw 0.5s ease-out both; }
+@keyframes pop {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+.animate-pop { display: inline-block; animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-draw, .animate-pop { animation: none; }
+}
+
+/* Changements d'état (norme LNS commune) : ce qui s'ouvre suite à un geste s'anime,
+   200 ms max, courbe unique. Pas les données, ni les lignes, ni la fermeture des menus. */
+@theme { --ease-lns: cubic-bezier(0.2, 0, 0, 1); }
+
+/* Déplié : le contenu reste monté pour animer la fermeture. */
+.reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 200ms var(--ease-lns), opacity 200ms var(--ease-lns);
+}
+.reveal[data-open='true'] { grid-template-rows: 1fr; opacity: 1; }
+/* clip + marge : les anneaux de focus des champs pleine largeur ne sont pas rognés (Safari sans overflow-clip-margin : rogné comme avant). */
+.reveal > * { min-height: 0; overflow: hidden; overflow: clip; overflow-clip-margin: 4px; }
+
+@keyframes menu-in { from { opacity: 0; transform: translateY(4px) scale(0.98); } }
+.animate-menu { animation: menu-in 140ms var(--ease-lns) both; }
+@keyframes sheet-in { from { transform: translateY(100%); } }
+.animate-sheet { animation: sheet-in 200ms var(--ease-lns) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; }
+  .animate-menu, .animate-sheet { animation: none; }
+}
+
+/* Mobile : barre du bas */
+@media (max-width: 767px), (max-height: 499px) {
+  /* toasts : sonner ne décale (mobileOffset, main.tsx) que sous 600 px de large ;
+     au-delà (paysage, 601-767 px) ils masqueraient aussi la barre du bas */
+  [data-sonner-toaster][data-y-position='bottom'] {
+    bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* logo du document en thème sombre : le PNG a un texte foncé sur fond transparent, illisible sur la surface sombre ;
+   on inverse la luminosité et on ramène la teinte pour garder le corail */
+:root[data-theme='dark'] .doc-logo { filter: invert(1) hue-rotate(180deg); }
+
+/* éditeur visuel (RichEditor) : texte d'exemple tant qu'il n'y a qu'une ligne vide */
+.rich-editor { position: relative; }
+.rich-editor:has(> div:only-child > br:only-child)::after {
+  content: attr(data-placeholder);
+  position: absolute;
+  top: 0.5rem;
+  left: 0.75rem;
+  color: var(--color-ink-500);
+  pointer-events: none;
+  white-space: pre-line;
+}

@@ -1,0 +1,22 @@
+node_modules
+dist
+# toutes les variantes d'env (.env.production, .env.preview…), sauf le modèle commité
+.env*
+!.env.example
+.DS_Store
+*.log
+.vercel
+*.tsbuildinfo
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/
+
+# Docs locales contenant des secrets (comptes de test, etc.) : jamais commitées
+*.local.md
+
+# Config MCP locale
+.mcp.json
+.claude/*
+!.claude/settings.json
+!.claude/rules/
